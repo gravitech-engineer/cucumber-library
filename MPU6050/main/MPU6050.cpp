@@ -18,13 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*#if ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-
-#include <Wire.h>*/
 
 #include <math.h>
 #include "MPU6050.h"
@@ -388,15 +381,7 @@ void MPU6050::readRegister6(uint8_t *reg, uint8_t *values)
 
 Vector MPU6050::readRawAccel(void)
 {
-   /* uint8_t reg_mpu = MPU6050_REG_ACCEL_XOUT_H;
-  	uint8_t value_mpu[6];
-    readRegister6(&reg_mpu, value_mpu);
-    uint8_t xha = value_mpu[0];
-    uint8_t xla = value_mpu[1];
-    uint8_t yha = value_mpu[2];
-    uint8_t yla = value_mpu[3];
-    uint8_t zha = value_mpu[4];
-    uint8_t zla = value_mpu[5];*/
+  
 
     uint16_t xha = readRegister8(0x3B)<< 8 ;
     uint16_t xla = readRegister8(0x3C);
@@ -440,26 +425,7 @@ Vector MPU6050::readRawGyro(void)
     uint8_t reg_mpu = MPU6050_REG_GYRO_XOUT_H;
     uint16_t temp_raw;
     uint8_t value_mpu[6];
-   // readRegister6(&reg_mpu, value_mpu);
-
-	/*temp_raw = readRegister16(0x43);
-
-	uint8_t xha = temp_raw>>8;
-    uint8_t xla = temp_raw & 0xFF;
-
-    temp_raw = readRegister16(0x46);
-
-    uint8_t yha = temp_raw>>8;
-    uint8_t yla = temp_raw & 0xFF;
-
-	temp_raw = readRegister16(0x47);
-
-    uint8_t zha = temp_raw>>8;
-    uint8_t zla = temp_raw & 0xFF;*/
-
-
-
-
+   
     uint16_t xha = readRegister8(0x43)<< 8 ;
     uint16_t xla = readRegister8(0x44);
     uint16_t yha = readRegister8(0x45)<< 8 ;
@@ -467,10 +433,6 @@ Vector MPU6050::readRawGyro(void)
     uint16_t zha = readRegister8(0x47)<< 8 ;
     uint16_t zla = readRegister8(0x48);
    
-	/*printf("%x\n",  xha | xla);
-	printf("%x\n", xha>>8);*/
-
- 	
 
     rg.XAxis = xha | xla;
     rg.YAxis = yha | yla;
@@ -656,58 +618,11 @@ void MPU6050::setThreshold(uint8_t multiple)
     actualThreshold = multiple;
 }
 
-// Fast read 8-bit from register
-/*uint8_t MPU6050::fastRegister8(uint8_t reg)
-{
-    uint8_t value;
-
-    Wire.beginTransmission(mpuAddress);
-#if ARDUINO >= 100
-    Wire.write(reg);
-#else
-    Wire.send(reg);
-#endif
-    Wire.endTransmission();
-
-    Wire.beginTransmission(mpuAddress);
-    Wire.requestFrom(mpuAddress, 1);
-#if ARDUINO >= 100
-    value = Wire.read();
-#else
-    value = Wire.receive();
-#endif;
-    Wire.endTransmission();
-
-    return value;
-}*/
 
 // Read 8-bit from register
 uint8_t MPU6050::readRegister8(uint8_t reg)
 {
-    /* uint8_t value;
-
-    Wire.beginTransmission(mpuAddress);
-#if ARDUINO >= 100
-    Wire.write(reg);
-#else
-    Wire.send(reg);
-#endif
-    Wire.endTransmission();
-
-    Wire.beginTransmission(mpuAddress);
-    Wire.requestFrom(mpuAddress, 1);
-    while (!Wire.available())
-    {
-    };
-#if ARDUINO >= 100
-    value = Wire.read();
-#else
-    value = Wire.receive();
-#endif;
-    Wire.endTransmission();
-
-    return value;*/
-
+  
     i2c_cmd_handle_t _cmd;
     esp_err_t ret;
     uint8_t values;
@@ -732,17 +647,7 @@ uint8_t MPU6050::readRegister8(uint8_t reg)
 // Write 8-bit to register
 void MPU6050::writeRegister8(uint8_t reg, uint8_t value)
 {
-    /*  Wire.beginTransmission(mpuAddress);
-
-#if ARDUINO >= 100
-    Wire.write(reg);
-    Wire.write(value);
-#else
-    Wire.send(reg);
-    Wire.send(value);
-#endif
-    Wire.endTransmission();*/
-
+   
     i2c_cmd_handle_t _cmd;
     esp_err_t ret;
 
@@ -767,34 +672,7 @@ void MPU6050::writeRegister8(uint8_t reg, uint8_t value)
 
 int16_t MPU6050::readRegister16(uint8_t reg)
 {
-    /* int16_t value;
-    Wire.beginTransmission(mpuAddress);
-#if ARDUINO >= 100
-    Wire.write(reg);
-#else
-    Wire.send(reg);
-#endif
-    Wire.endTransmission();
-
-    Wire.beginTransmission(mpuAddress);
-    Wire.requestFrom(mpuAddress, 2);
-    while (!Wire.available())
-    {
-    };
-#if ARDUINO >= 100
-    uint8_t vha = Wire.read();
-    uint8_t vla = Wire.read();
-#else
-    uint8_t vha = Wire.receive();
-    uint8_t vla = Wire.receive();
-#endif;
-    Wire.endTransmission();
-
-    value = vha << 8 | vla;
-
-    return value;*/
-    /*************************************************************/
-
+ 
     i2c_cmd_handle_t _cmd;
     esp_err_t ret;
     uint8_t values[2];
@@ -825,26 +703,10 @@ int16_t MPU6050::readRegister16(uint8_t reg)
     return temp_value;
 }
 
-// i2c_master_read(_cmd, value, sizeof(value) - 1, ACK)
-//     i2c_master_read(_cmd, value, 1, NAK)
 
 void MPU6050::writeRegister16(uint8_t reg, int16_t value)
 {
-    /* Wire.beginTransmission(mpuAddress);
-
-#if ARDUINO >= 100
-    Wire.write(reg);
-    Wire.write((uint8_t)(value >> 8));
-    Wire.write((uint8_t)value);
-#else
-    Wire.send(reg);
-    Wire.send((uint8_t)(value >> 8));
-    Wire.send((uint8_t)value);
-#endif
-    Wire.endTransmission();*/
-
-    /************************************************/
-
+   
     uint8_t values[2];
 
     values[0] = value >> 8;
@@ -866,10 +728,7 @@ void MPU6050::writeRegister16(uint8_t reg, int16_t value)
     i2c_master_stop(_cmd);
     ret = i2c_master_cmd_begin(I2C_NUM_0, _cmd, 1000 / portTICK_RATE_MS);
     i2c_cmd_link_delete(_cmd);
-    // if (ret == ESP_OK)
-    //     return true;
-    // else
-    //     return false;
+   
 }
 
 // Read register bit

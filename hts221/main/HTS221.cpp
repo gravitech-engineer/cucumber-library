@@ -227,15 +227,7 @@ HTS221::readTemperature(void)
 // Read a single uint8_t from addressToRead and return it as a uint8_t
 uint8_t HTS221::readRegister(uint8_t slaveAddress, uint8_t regToRead)
 {
-    // Wire.beginTransmission(slaveAddress);
-    // Wire.write(regToRead);
-    // Wire.endTransmission(false); //endTransmission but keep the connection active
-
-    // Wire.requestFrom(slaveAddress, 1); //Ask for 1 uint8_t, once done, bus is released by default
-
-    // while (!Wire.available())
-    //     ;               //Wait for the data to come back
-    // return Wire.read(); //Return this one uint8_t
+   
     i2c_cmd_handle_t _cmd;
     esp_err_t ret;
     uint8_t values;
@@ -260,19 +252,7 @@ uint8_t HTS221::readRegister(uint8_t slaveAddress, uint8_t regToRead)
 // Writes a single uint8_t (dataToWrite) into regToWrite
 bool HTS221::writeRegister(uint8_t slaveAddress, uint8_t regToWrite, uint8_t dataToWrite)
 {
-    // Wire.beginTransmission(slaveAddress);
-
-    // if (!Wire.write(regToWrite))
-    // {
-    //     return false;
-    // }
-    // if (!Wire.write(dataToWrite))
-    // {
-    //     return false;
-    // }
-
-    // uint8_t errorNo = Wire.endTransmission(); //Stop transmitting
-    // return (errorNo == 0);
+    
     i2c_cmd_handle_t _cmd;
     esp_err_t ret;
 
