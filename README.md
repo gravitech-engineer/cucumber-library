@@ -1,5 +1,5 @@
 <h1>CUCUMBER with esp32s2</h1>
-<img src="media/LOGO.jpg" alt="unnamed" border="0">
+<img src="media/LOGO.jpg" width= “150” height= “200”>
 <h2>By www.gravitechthai.com</h2>
 <h2>Series R</h2>
 
