@@ -22,9 +22,6 @@ PSRAM                 | |  |  |  |
 ESP Module                 |ESP32-S2-WROVER |ESP32-S2-WROVER | ESP32-S2-WROVER-I | ESP32-S2-WROVER-I	 |
 ---
 
-<img src="media/cucumber.jpg">
-
-<img src="media/cucumber_pinout.jpg">
 
 
 
