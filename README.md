@@ -1,2 +1,2 @@
 # cucumber-library-sensor
-get start exsample
+get start example
